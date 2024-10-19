@@ -44,14 +44,13 @@ class Venta{
         Cliente* getCliente() {
             return this->cliente;
         }
-
         void agregarProducto(Producto p) {
             productosVendidos.push_back(p); // Usar la función push_back de List
         }
         void setProductosVendidos(List<Producto> spv) {
             this->productosVendidos = spv;
         }
-        List<Producto*> getListaProducto() { // Devolver la referencia a la lista de productos
+        List<Producto> getListaProducto() { // Devolver la referencia a la lista de productos
             return this->productosVendidos;
         }
 

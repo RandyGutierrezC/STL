@@ -5,104 +5,11 @@
 #include"STL.h"
 
 using namespace std;
-List<Cliente> listaClientes; // Usamos List para clientes
-List<Producto> listaProductos; // Usamos List para productos
-List<Venta> listaVentas; // Usamos List para ventas
-
-void agregarCliente(){
-    // Agregar cliente
-    int id;
-    string nombre, apellido;
-    cout << "\nIngrese ID del cliente: ";
-    cin >> id;
-    cout << "Ingrese nombre del cliente: ";
-    cin >> nombre;
-    cout << "Ingrese apellido del cliente: ";
-    cin >> apellido;
-    listaClientes.push_back(Cliente(id, nombre, apellido)); // Uso de push_back
-    cout << "Cliente agregado exitosamente.\n";
-}
-void agregarProducto(){
-    // Agregar producto
-    int id;
-    string descripcion;
-    float precio;
-    int existencias;
-    cout << "\nIngrese ID del producto: ";
-    cin >> id;
-    cout << "Ingrese descripcion del producto: ";
-    cin >> descripcion;
-    cout << "Ingrese precio unitario del producto: ";
-    cin >> precio;
-    cout << "Ingrese existencias del producto: ";
-    cin >> existencias;
-    listaProductos.push_back(Producto(id, descripcion, precio, existencias)); // Uso de push_back
-    cout << "Producto agregado exitosamente.\n";
-}
-void HacerVenta(){
-    system("cls");
-    // Hacer una venta
-    int idVenta, idCliente;
-    cout << "\nIngrese el numero de factura: ";
-    cin >> idVenta;
-    cout << "Ingrese el ID del cliente que realiza la compra: ";
-    cin >> idCliente;
-
-    Cliente* cliente = nullptr;
-    for (List<Cliente>::Iterator it = listaClientes.begin(); it != listaClientes.end(); ++it) {
-        if ((*it).getIdCliente() == idCliente) {
-            cliente = &(*it);
-            break;
-        }
-    }
-
-    if (cliente == nullptr) {
-        cout << "Cliente no encontrado.\n";
-    } else {
-        Venta nuevaVenta(idVenta, "2023-09-01", cliente);
-        int idProducto, cantidad;
-        char agregarOtroProducto;
-
-        do {
-            cout << "Ingrese el ID del producto a vender: ";
-            cin >> idProducto;
-
-            Producto* producto = nullptr;
-            for (List<Producto>::Iterator it = listaProductos.begin(); it != listaProductos.end(); ++it) {
-                if ((*it).getIdProducto() == idProducto) {
-                    producto = &(*it);
-                    break;
-                }
-            }
-
-            if (producto == nullptr) {
-                cout << "Producto no encontrado.\n";
-            } else {
-                cout << "Ingrese la cantidad a vender: ";
-                cin >> cantidad;
-
-                if (producto->getExistencia() >= cantidad) {
-                    producto->setExistencia(producto->getExistencia() - cantidad);  // Actualizar existencias
-                    nuevaVenta.agregarProducto(*producto);  // Agregar producto a la venta
-                    cout << "Producto agregado a la venta.\n";
-                } else {
-                    cout << "No hay suficientes existencias para este producto.\n";
-                }
-            }
-
-            cout << "¿Desea agregar otro producto? (s/n): ";
-            cin >> agregarOtroProducto;
-
-        } while (agregarOtroProducto == 's' || agregarOtroProducto == 'S');
-
-        listaVentas.push_back(nuevaVenta);  // Guardar la venta
-        cout << "Venta realizada exitosamente.\n";
-    }
-}
-
 
 int main() {
-
+    List<Cliente> listaClientes; // Usamos List para clientes
+    List<Producto> listaProductos; // Usamos List para productos
+    List<Venta> listaVentas; // Usamos List para ventas
 
     int opcion = 0;
     while (opcion != 8) {
@@ -123,17 +30,96 @@ int main() {
         switch (opcion) {
             case 1: {
                 system("cls");
-                agregarCliente();
+                // Agregar cliente
+                int id;
+                string nombre, apellido;
+                cout << "\nIngrese ID del cliente: ";
+                cin >> id;
+                cout << "Ingrese nombre del cliente: ";
+                cin >> nombre;
+                cout << "Ingrese apellido del cliente: ";
+                cin >> apellido;
+                listaClientes.push_back(Cliente(id, nombre, apellido)); // Uso de push_back
+                cout << "Cliente agregado exitosamente.\n";
                 break;
             }
             case 2: {
                 system("cls");
-                agregarProducto();
+                // Agregar producto
+                int id;
+                string descripcion;
+                float precio;
+                int existencias;
+                cout << "\nIngrese ID del producto: ";
+                cin >> id;
+                cout << "Ingrese descripcion del producto: ";
+                cin >> descripcion;
+                cout << "Ingrese precio unitario del producto: ";
+                cin >> precio;
+                cout << "Ingrese existencias del producto: ";
+                cin >> existencias;
+                listaProductos.push_back(Producto(id, descripcion, precio, existencias)); // Uso de push_back
+                cout << "Producto agregado exitosamente.\n";
                 break;
             }
             case 3: {
                 system("cls");
-                HacerVenta();
+                // Hacer una venta
+                int idVenta, idCliente;
+                cout << "\nIngrese el numero de factura: ";
+                cin >> idVenta;
+                cout << "Ingrese el ID del cliente que realiza la compra: ";
+                cin >> idCliente;
+
+                Cliente* cliente = NULL;
+                for (List<Cliente>::Iterator it = listaClientes.begin(); it != listaClientes.end(); ++it) {
+                    if ((*it).getIdCliente() == idCliente) {
+                        cliente = &(*it);
+                        break;
+                    }
+                }
+
+                if (cliente == NULL) {
+                    cout << "Cliente no encontrado.\n";
+                } else {
+                    Venta nuevaVenta(idVenta, "2023-09-01", cliente);
+                    int idProducto, cantidad;
+                    char agregarOtroProducto;
+
+                    do {
+                        cout << "Ingrese el ID del producto a vender: ";
+                        cin >> idProducto;
+
+                        Producto* producto = NULL;
+                        for (List<Producto>::Iterator it = listaProductos.begin(); it != listaProductos.end(); ++it) {
+                            if ((*it).getIdProducto() == idProducto) {
+                                producto = &(*it);
+                                break;
+                            }
+                        }
+
+                        if (producto == NULL) {
+                            cout << "Producto no encontrado.\n";
+                        } else {
+                            cout << "Ingrese la cantidad a vender: ";
+                            cin >> cantidad;
+
+                            if (producto->getExistencia() >= cantidad) {
+                                producto->setExistencia(producto->getExistencia() - cantidad);  // Actualizar existencias
+                                nuevaVenta.agregarProducto(*producto);  // Agregar producto a la venta
+                                cout << "Producto agregado a la venta.\n";
+                            } else {
+                                cout << "No hay suficientes existencias para este producto.\n";
+                            }
+                        }
+
+                        cout << "¿Desea agregar otro producto? (s/n): ";
+                        cin >> agregarOtroProducto;
+
+                    } while (agregarOtroProducto == 's' || agregarOtroProducto == 'S');
+                    listaVentas.push_back(nuevaVenta);  // Guardar la venta
+                    cout << "Venta realizada exitosamente.\n";
+                }
                 break;
             }
             case 4: {
