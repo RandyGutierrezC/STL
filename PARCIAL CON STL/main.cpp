@@ -106,7 +106,9 @@ int main() {
 
                             if (producto->getExistencia() >= cantidad) {
                                 producto->setExistencia(producto->getExistencia() - cantidad);  // Actualizar existencias
-                                nuevaVenta.agregarProducto(*producto);  // Agregar producto a la venta
+                                nuevaVenta.agregarProducto(producto);  // Agregar producto a la venta
+                                cout << "Producto agregado a la venta: " << producto->getDescripcion() << ", Cantidad: " << cantidad << endl;
+
                                 cout << "Producto agregado a la venta.\n";
                             } else {
                                 cout << "No hay suficientes existencias para este producto.\n";
@@ -117,7 +119,9 @@ int main() {
                         cin >> agregarOtroProducto;
 
                     } while (agregarOtroProducto == 's' || agregarOtroProducto == 'S');
-                    listaVentas.push_back(nuevaVenta);  // Guardar la venta
+
+                    listaVentas.insertarAlFinal(nuevaVenta);  // Guardar la venta
+
                     cout << "Venta realizada exitosamente.\n";
                 }
                 break;
@@ -172,9 +176,9 @@ int main() {
                     cout << "Cliente: " << cliente->getNombres() << " " << cliente->getApellidos() << endl;
 
                     cout << "Productos vendidos:\n";
-                    List<Producto> productos = venta->getListaProducto();
+                    List<Producto*> productos = venta->getListaProducto();
                                 for (auto it = productos.begin(); it != productos.end(); ++it) {
-                                    cout << "Producto: " << (*it).getDescripcion() << ", Precio: " << (*it).getPrecioUnitario() << endl;
+                                    cout << "Producto: " << (*it)->getDescripcion() << ", Precio: " << (*it)->getPrecioUnitario() << endl;
                                 }
                 } else {
                     cout << "Venta no encontrada.\n";

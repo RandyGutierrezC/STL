@@ -66,6 +66,17 @@ public:
         }
         ++size;
     }
+    void insertarAlFinal(const T& value) {
+        Node* newNode = new Node(value);  // Crear un nuevo nodo
+        if (tail) {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        } else {
+            head = tail = newNode;  // Si la lista está vacía, el nuevo nodo es tanto el head como el tail
+        }
+        ++size;  // Incrementar el tamaño de la lista
+    }
 
     // Eliminar el último elemento (pop_back)
     void pop_back() {
@@ -106,7 +117,16 @@ public:
         }
         cout << endl;
     }
-
+    void clear() {
+            Node* current = head;
+            while (current != nullptr) {
+                Node* temp = current;
+                current = current->next;
+                delete temp;
+            }
+            head = tail = nullptr;
+            size = 0;
+    }
     // Obtener el tamaño de la lista
     size_t get_size() {
         return size;
@@ -121,7 +141,7 @@ public:
         Iterator(Node* node) : current(node) {}
 
         // Operador de desreferencia (*)
-        T& operator*() const {
+        T& operator*()  {
             return current->data;
         }
 
@@ -132,7 +152,7 @@ public:
         }
 
         // Operador de comparación (== y !=)
-        bool operator!=(const Iterator& other) const {
+        bool operator!=(const Iterator& other)  {
             return current != other.current;
         }
     };

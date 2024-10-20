@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1729358816 source:c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\main.cpp
+1729384617 source:c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\main.cpp
 	<iostream>
 	"Venta.h"
 	"Cliente.h"
 	"Producto.h"
 	"STL.h"
 
-1729277284 c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\stl.h
+1729384177 c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\stl.h
 
-1729359745 c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\venta.h
+1729384735 c:\users\randy\onedrive - universidad de sonsonate\escritorio\stl\stl\parcial con stl\venta.h
 	<string.h>
 	"Producto.h"
 	"Cliente.h"
