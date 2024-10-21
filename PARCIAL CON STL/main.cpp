@@ -7,9 +7,9 @@
 using namespace std;
 
 int main() {
-    List<Cliente> listaClientes; // Usamos List para clientes
-    List<Producto> listaProductos; // Usamos List para productos
-    List<Venta> listaVentas; // Usamos List para ventas
+    List<Cliente*> listaClientes; // Usamos List para clientes con punteros
+    List<Producto*> listaProductos; // Usamos List para productos con punteros
+    List<Venta*> listaVentas; // Usamos List para ventas con punteros
 
     int opcion = 0;
     while (opcion != 8) {
@@ -39,7 +39,7 @@ int main() {
                 cin >> nombre;
                 cout << "Ingrese apellido del cliente: ";
                 cin >> apellido;
-                listaClientes.push_back(Cliente(id, nombre, apellido)); // Uso de push_back
+                listaClientes.push_back(new Cliente(id, nombre, apellido)); // Crear cliente dinámicamente
                 cout << "Cliente agregado exitosamente.\n";
                 break;
             }
@@ -58,7 +58,7 @@ int main() {
                 cin >> precio;
                 cout << "Ingrese existencias del producto: ";
                 cin >> existencias;
-                listaProductos.push_back(Producto(id, descripcion, precio, existencias)); // Uso de push_back
+                listaProductos.push_back(new Producto(id, descripcion, precio, existencias)); // Crear producto dinámicamente
                 cout << "Producto agregado exitosamente.\n";
                 break;
             }
@@ -71,18 +71,18 @@ int main() {
                 cout << "Ingrese el ID del cliente que realiza la compra: ";
                 cin >> idCliente;
 
-                Cliente* cliente = NULL;
-                for (List<Cliente>::Iterator it = listaClientes.begin(); it != listaClientes.end(); ++it) {
-                    if ((*it).getIdCliente() == idCliente) {
-                        cliente = &(*it);
+                Cliente* cliente = nullptr;
+                for (List<Cliente*>::Iterator it = listaClientes.begin(); it != listaClientes.end(); ++it) {
+                    if ((*it)->getIdCliente() == idCliente) {
+                        cliente = *it; // Cliente encontrado, tomar el puntero
                         break;
                     }
                 }
 
-                if (cliente == NULL) {
+                if (cliente == nullptr) {
                     cout << "Cliente no encontrado.\n";
                 } else {
-                    Venta nuevaVenta(idVenta, "2023-09-01", cliente);
+                    Venta* nuevaVenta = new Venta(idVenta, "2023-09-01", cliente); // Crear venta dinámicamente
                     int idProducto, cantidad;
                     char agregarOtroProducto;
 
@@ -90,15 +90,15 @@ int main() {
                         cout << "Ingrese el ID del producto a vender: ";
                         cin >> idProducto;
 
-                        Producto* producto = NULL;
-                        for (List<Producto>::Iterator it = listaProductos.begin(); it != listaProductos.end(); ++it) {
-                            if ((*it).getIdProducto() == idProducto) {
-                                producto = &(*it);
+                        Producto* producto = nullptr;
+                        for (List<Producto*>::Iterator it = listaProductos.begin(); it != listaProductos.end(); ++it) {
+                            if ((*it)->getIdProducto() == idProducto) {
+                                producto = *it; // Producto encontrado, tomar el puntero
                                 break;
                             }
                         }
 
-                        if (producto == NULL) {
+                        if (producto == nullptr) {
                             cout << "Producto no encontrado.\n";
                         } else {
                             cout << "Ingrese la cantidad a vender: ";
@@ -106,9 +106,7 @@ int main() {
 
                             if (producto->getExistencia() >= cantidad) {
                                 producto->setExistencia(producto->getExistencia() - cantidad);  // Actualizar existencias
-                                nuevaVenta.agregarProducto(producto);  // Agregar producto a la venta
-                                cout << "Producto agregado a la venta: " << producto->getDescripcion() << ", Cantidad: " << cantidad << endl;
-
+                                nuevaVenta->agregarProducto(producto);  // Agregar producto a la venta
                                 cout << "Producto agregado a la venta.\n";
                             } else {
                                 cout << "No hay suficientes existencias para este producto.\n";
@@ -119,9 +117,7 @@ int main() {
                         cin >> agregarOtroProducto;
 
                     } while (agregarOtroProducto == 's' || agregarOtroProducto == 'S');
-
-                    listaVentas.insertarAlFinal(nuevaVenta);  // Guardar la venta
-
+                    listaVentas.push_back(nuevaVenta);  // Guardar la venta
                     cout << "Venta realizada exitosamente.\n";
                 }
                 break;
@@ -131,7 +127,7 @@ int main() {
                 // Ver lista de clientes
                 cout << "\nLista de clientes:\n";
                 for (auto it = listaClientes.begin(); it != listaClientes.end(); ++it) {
-                    cout << "ID: " << (*it).getIdCliente() << ", Nombre: " << (*it).getNombres() << " " << (*it).getApellidos() << endl;
+                    cout << "ID: " << (*it)->getIdCliente() << ", Nombre: " << (*it)->getNombres() << " " << (*it)->getApellidos() << endl;
                 }
                 break;
             }
@@ -140,7 +136,7 @@ int main() {
                 // Ver lista de productos
                 cout << "\nLista de productos:\n";
                 for (auto it = listaProductos.begin(); it != listaProductos.end(); ++it) {
-                    cout << "ID: " << (*it).getIdProducto() << ", Descripción: " << (*it).getDescripcion() << ",Precio Unitario" << (*it).getPrecioUnitario() << ",Existencias" <<(*it).getExistencia() << endl;
+                    cout << "ID: " << (*it)->getIdProducto() << ", Descripcion: " << (*it)->getDescripcion() << ", Precio Unitario: " << (*it)->getPrecioUnitario() << ", Existencias: " << (*it)->getExistencia() << endl;
                 }
                 break;
             }
@@ -149,7 +145,7 @@ int main() {
                 // Ver lista de ventas
                 cout << "\nLista de ventas:\n";
                 for (auto it = listaVentas.begin(); it != listaVentas.end(); ++it) {
-                    cout << "Factura No: " << (*it).getNumeroFactura() << ", Fecha: " << (*it).getFecha() << endl;
+                    cout << "Factura No: " << (*it)->getNumeroFactura() << ", Fecha: " << (*it)->getFecha() << endl;
                 }
                 break;
             }
@@ -160,15 +156,15 @@ int main() {
                 cout << "\nIngrese el numero de factura para ver detalles: ";
                 cin >> idVenta;
 
-                Venta* venta = NULL;
-                for (List<Venta>::Iterator it = listaVentas.begin(); it != listaVentas.end(); ++it) {
-                    if ((*it).getNumeroFactura() == idVenta) {
-                        venta = &(*it);
+                Venta* venta = nullptr;
+                for (List<Venta*>::Iterator it = listaVentas.begin(); it != listaVentas.end(); ++it) {
+                    if ((*it)->getNumeroFactura() == idVenta) {
+                        venta = *it; // Venta encontrada
                         break;
                     }
                 }
 
-                if (venta != NULL) {
+                if (venta != nullptr) {
                     cout << "\nDetalles de la venta:\n";
                     cout << "Factura No: " << venta->getNumeroFactura() << endl;
                     cout << "Fecha de Venta: " << venta->getFecha() << endl;
@@ -177,9 +173,9 @@ int main() {
 
                     cout << "Productos vendidos:\n";
                     List<Producto*> productos = venta->getListaProducto();
-                                for (auto it = productos.begin(); it != productos.end(); ++it) {
-                                    cout << "Producto: " << (*it)->getDescripcion() << ", Precio: " << (*it)->getPrecioUnitario() << endl;
-                                }
+                    for (auto it = productos.begin(); it != productos.end(); ++it) {
+                        cout << "Producto: " << (*it)->getDescripcion() << ", Precio: " << (*it)->getPrecioUnitario() << endl;
+                    }
                 } else {
                     cout << "Venta no encontrada.\n";
                 }
@@ -198,4 +194,3 @@ int main() {
 
     return 0;
 }
-

@@ -45,31 +45,10 @@ class Venta{
             return this->cliente;
         }
         void agregarProducto(Producto *p) {
-            /*
-            productosVendidos.push_back(p); // Usar la función push_back de List
-            */
-            if (p != nullptr) {
-                productosVendidos.push_back(p);  // Agregar el puntero a la lista
-                cout << "Producto agregado: " << p->getDescripcion() << endl;
-            } else {
-                cout << "Error: Intentando agregar un puntero nulo a la lista de productos." << endl;
-            }
+            productosVendidos.push_back(p);
         }
-        void setProductosVendidos(List<Producto*> spv) {
-            /*
-            this->productosVendidos = spv;
-            */
-            productosVendidos.clear();  // Limpiar la lista actual antes de reemplazarla
-            this->productosVendidos = spv;
-        }
-        List<Producto*> getListaProducto() { // Devolver la referencia a la lista de productos
-            // Verificar si la lista tiene punteros válidos
-    for (auto it = productosVendidos.begin(); it != productosVendidos.end(); ++it) {
-        if (*it == nullptr) {
-            cout << "Error: La lista contiene un puntero nulo." << endl;
-        }
-    }
-    return this->productosVendidos;  // Devolver la referencia a la lista original
+        List<Producto*>& getListaProducto() {
+            return this->productosVendidos;  // Devolver la referencia a la lista original
         }
 };
 
