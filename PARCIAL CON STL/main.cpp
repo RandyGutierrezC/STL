@@ -156,7 +156,7 @@ int main() {
                 cout << "\nIngrese el numero de factura para ver detalles: ";
                 cin >> idVenta;
 
-                Venta* venta = nullptr;
+                Venta* venta = NULL;
                 for (List<Venta*>::Iterator it = listaVentas.begin(); it != listaVentas.end(); ++it) {
                     if ((*it)->getNumeroFactura() == idVenta) {
                         venta = *it; // Venta encontrada
@@ -164,7 +164,7 @@ int main() {
                     }
                 }
 
-                if (venta != nullptr) {
+                if (venta != NULL) {
                     cout << "\nDetalles de la venta:\n";
                     cout << "Factura No: " << venta->getNumeroFactura() << endl;
                     cout << "Fecha de Venta: " << venta->getFecha() << endl;

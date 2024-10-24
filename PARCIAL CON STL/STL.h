@@ -34,11 +34,7 @@ public:
 
     // Destructor para liberar la memoria de los nodos
     ~List() {
-        while (head) {
-            Node* temp = head;
-            head = head->next;
-            delete temp;  // Liberar la memoria del nodo
-        }
+        this->clear();
     }
 
     // Insertar al final de la lista (push_back)
@@ -119,12 +115,12 @@ public:
     }
     void clear() {
             Node* current = head;
-            while (current != nullptr) {
+            while (current != NULL) {
                 Node* temp = current;
                 current = current->next;
                 delete temp;
             }
-            head = tail = nullptr;
+            head = tail = NULL;
             size = 0;
     }
     // Obtener el tamaño de la lista
